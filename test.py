@@ -4,7 +4,7 @@ def getModule():
     print('get Module start..')
 
     try:
-        url = 'http://127.0.0.1:8000/server/get/test/'
+        url = 'http://ec2-65-2-148-13.ap-south-1.compute.amazonaws.com:8080/server/gps/test/ddd/127.312,32.3213/'
         response = requests.get(url)
         data = str(response.content)
         if data.find('off'):

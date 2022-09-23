@@ -21,8 +21,10 @@ def setModule(request, moduleName, latitude, longitude):
 
 
 
-def getModule(request, moduleName):
+def getModule(request, moduleName, location):
     if Module.objects.filter(moduleName=moduleName):
+        moduleLocation = location.split(',')
+        Module.objects.filter(moduleName=moduleName).update(longitude=moduleLocation[0], latitude=moduleLocation[1])
         return HttpResponse(Module.objects.filter(moduleName=moduleName).values('on'))
     else:
         return HttpResponse("NO MODULE")
