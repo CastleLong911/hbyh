@@ -4,6 +4,23 @@ from django.shortcuts import render
 # Create your views here.
 from .models import Module
 
+def setModule(request, moduleName, latitude, longitude):
+    if Module.objects.filter(moduleName=moduleName):
+        return HttpResponse("Already there is module what has same moduleName")
+    else:
+        try:
+            module = Module(moduleName=moduleName,
+                        latitude=latitude,
+                        longitude=longitude,
+                        on='off'
+            )
+            module.save()
+        except:
+            print('error!')
+            return HttpResponse('ERROR!')
+
+
+
 def getModule(request, moduleName):
     if Module.objects.filter(moduleName=moduleName):
         return HttpResponse(Module.objects.filter(moduleName=moduleName).values('on'))
@@ -12,6 +29,7 @@ def getModule(request, moduleName):
 
 def gps(request, moduleName, location, ID):
     if Module.objects.filter(moduleName=moduleName):
+        print('gps get !')
         deviceLocation = location.split(',')
         moduleLocation = Module.objects.filter(moduleName=moduleName).values('latitude', 'longitude')
         if abs(moduleLocation[0]['latitude'] - float(deviceLocation[0])) > float(1/3600) or abs(moduleLocation[0]['longitude'] - float(deviceLocation[1])) > float(1/3600):
