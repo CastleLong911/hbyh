@@ -34,7 +34,7 @@ def gps(request, moduleName, location, ID):
         print('gps get !')
         deviceLocation = location.split(',')
         moduleLocation = Module.objects.filter(moduleName=moduleName).values('latitude', 'longitude')
-        if abs(moduleLocation[0]['latitude'] - float(deviceLocation[0])) > float(1/3600) or abs(moduleLocation[0]['longitude'] - float(deviceLocation[1])) > float(1/3600):
+        if abs(moduleLocation[0]['longitude'] - float(deviceLocation[0])) > float(1/3600) or abs(moduleLocation[0]['latitude'] - float(deviceLocation[1])) > float(1/3600):
             Module.objects.filter(moduleName=moduleName).update(on='off')
             return HttpResponse("off")
         else:
